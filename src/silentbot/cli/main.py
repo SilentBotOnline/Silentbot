@@ -31,9 +31,12 @@ def run_cli():
     args = parser.parse_known_args()[0]
 
     uid = get_cli_user_id()
-    user = db.ensure_user(uid) if hasattr(db, 'ensure_user') else db.create_user(f"cli_{uid[:8]}", "clipass", role="cli")
-    # Refresh
-    user = db.get_user_by_id(uid) or user
+    
+    # Ensure user exists in DB
+    user = db.get_user_by_id(uid)
+    if not user:
+        user = db.create_user(uid, username=f"cli_{uid[:8]}", role="cli")
+
     is_pro = user["is_pro"]
 
     if args.headless and args.prompt:
@@ -44,10 +47,10 @@ def run_cli():
         return
 
     theme = random.choice(THEMES)
-    console.print(Panel(f"{PROJECT_NAME} v{VERSION} [PRO: {is_pro}]", border_style=theme["border"]))
-    console.print("[dim]Commands: /memory <fact>, /unlock <code>, /config, /exit[/dim]")
+    console.print(Panel(f"{PROJECT_NAME} v{VERSION} [PRO: {'ON' if is_pro else 'OFF'}]", border_style=theme["border"]))
+    console.print("[dim]Commands: /memory <fact>, /unlock <code>, /clear, /config, /exit[/dim]")
 
-    current_sid = None
+    current_sid = db.create_session(uid, "CLI Session")
 
     while True:
         msg = Prompt.ask("You").strip()
@@ -55,6 +58,7 @@ def run_cli():
         
         # Slash Commands
         if msg.startswith("/exit"): break
+        
         if msg.startswith("/unlock"):
             code = msg.replace("/unlock", "").strip()
             if code == PRO_UNLOCK_CODE:
@@ -62,36 +66,63 @@ def run_cli():
                 is_pro = True
                 console.print("[green]Pro Unlocked![/green]")
             else:
-                console.print("[red]Invalid[/red]")
+                console.print("[red]Invalid Code[/red]")
             continue
+            
         if msg.startswith("/memory"):
             fact = msg.replace("/memory", "").strip()
-            db.add_memory(uid, fact)
-            console.print("[cyan]Memory Saved.[/cyan]")
+            if fact:
+                db.add_memory(uid, fact)
+                console.print("[cyan]Memory Saved.[/cyan]")
             continue
+            
+        if msg.startswith("/clear"):
+            console.clear()
+            console.print(Panel(f"{PROJECT_NAME} v{VERSION}", border_style=theme["border"]))
+            current_sid = db.create_session(uid, "CLI Session (Cleared)")
+            continue
+            
         if msg.startswith("/config"):
-            console.print(f"User: {uid}\nPro: {is_pro}\nReqs: {user.get('req_count',0)}")
-            console.print("\n[bold]ACTIVE POLICIES:[/bold]\n1. ALLOW: read, glob, search, list\n2. ASK_USER: write, replace, shell")
+            console.print(f"User ID: {uid}")
+            console.print(f"Pro Mode: {is_pro}")
+            console.print(f"Requests: {user.get('req_count', 0)}")
             continue
 
-        if not current_sid:
-            current_sid = db.create_session(uid, "CLI")
-
-        # Chat
+        # Chat Logic
         agent = Agent(mode="pro" if is_pro else "normal", user_id=uid)
         
         # Check Limits
         if not is_pro and user["req_count"] >= 30:
-            console.print("[red]Limit Reached (30). /unlock to continue.[/red]")
+            console.print("[red]Free limit reached (30 requests). Use /unlock to upgrade.[/red]")
             continue
             
-        with console.status("Thinking..."):
-            res = agent.run(msg, db.get_history(current_sid))
-            db.add_message(current_sid, "user", msg)
-            db.add_message(current_sid, "assistant", res["response"])
-            db.increment_request_count(uid)
-            
-        console.print(Panel(Markdown(res["response"])), border_style=theme["border"])
+        # Display thinking status
+        with console.status("Thinking...", spinner="dots"):
+            try:
+                # Get history for context
+                history = db.get_history(current_sid)
+                
+                # Add user message to DB first
+                db.add_message(current_sid, "user", msg)
+                
+                # Run Agent
+                res = agent.run(msg, history)
+                
+                # Save assistant response
+                db.add_message(current_sid, "assistant", res["response"])
+                db.increment_request_count(uid)
+                
+                # Display output
+                console.print(Panel(Markdown(res["response"]), title="SilentBot", border_style=theme["border"]))
+                
+                # Show citations/steps if available (Advanced Feature)
+                if "steps" in res and res["steps"]:
+                    for step in res["steps"]:
+                        if "TOOL" in step.get("content", ""):
+                             console.print(f"[dim]{step['content']}[/dim]")
+
+            except Exception as e:
+                console.print(f"[bold red]Error:[/bold red] {e}")
 
 if __name__ == "__main__":
     run_cli()

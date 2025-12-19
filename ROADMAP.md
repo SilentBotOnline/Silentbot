@@ -1,37 +1,37 @@
-# SilentBot AI - Vision 2027 (Production Release)
+# SilentBot AI - Project Roadmap
 
-**Current Version:** v5.0.0 (Enterprise Pro)
-**Status:** 🟢 Live & Production Ready
+This roadmap outlines the future development and strategic direction of the SilentBot AI project.
 
-## 🌟 Core Features (Implemented)
+## 🚀 Phase 1: Core Foundation (Completed)
+- [x] **Unified Project Structure:** Clean Python package (`src/silentbot`) with API, CLI, and Core separation.
+- [x] **Modular AI Engine:** flexible provider system supporting **OpenAI** and **Gemini**.
+- [x] **Production Database:** SQLite integration for persistent User, Session, and Message storage.
+- [x] **Rich CLI:** Advanced terminal interface with pro-mode activation and chat capabilities.
+- [x] **Web Dashboard:** Modern, responsive UI with "Hacker/Terminal" aesthetic.
+- [x] **CI/CD Pipelines:** GitHub Actions for automated testing and Docker builds.
 
-### 🧠 Autonomous Intelligence (The "2027" Engine)
-*   **Dual Mode Engine:**
-    *   **Normal Mode:** Intelligent Chat, QA, Writing Assistance. (Blocked from coding tasks).
-    *   **Pro Mode:** "God Mode" for Developers. Unlimited Coding, 25+ Languages, Error Fixing.
-*   **Agentic Reasoning:** ReAct Loop (Think -> Act -> Observe) for complex problem solving.
-*   **Knowledge Base:** Pre-seeded expert prompts for Rust, Go, Python, React, and more.
+## 🌟 Phase 2: Enhanced User Experience (Current Focus)
+- [ ] **Conversation Persistence:**
+  - Automatically save chat history to database.
+  - Resume functionality in both CLI and Web UI.
+- [ ] **Advanced CLI Features:**
+  - **Citation Display:** Show source citations for AI responses.
+  - **Slash Commands:** Custom commands like `/imagine`, `/analyze`, `/reset`.
+  - **Headless Mode:** Better UX for scripting and automation integration.
+- [ ] **Robustness:**
+  - Improved error handling for Windows environments.
+  - Automatic retry logic for API connection failures.
 
-### 🛡️ Enterprise Security
-*   **Auth System:** JWT Tokens, Password Hashing (PBKDF2).
-*   **Role Management:** Guest (30 msg limit) vs User vs Pro (Unlimited) vs Admin.
-*   **Admin Seeding:** Automatic provisioning of the `Silentbotbd` super-admin.
+## 🔧 Phase 3: Community & Automation
+- [ ] **Observability:**
+  - **OpenTelemetry Support:** Trace requests across the system for performance monitoring.
+  - Structured logging for deeper insights.
+- [ ] **Automated Workflows:**
+  - Auto-generate release notes on GitHub.
+  - Automated dependency updates.
+- [ ] **Plugin System:** Allow community-created extensions for the CLI.
 
-### 💻 Interfaces
-*   **Web IDE:** Dark-mode, syntax-highlighting, multi-session professional UI.
-*   **Advanced CLI:**
-    *   **Themes:** Smooth, random color themes on launch.
-    *   **Headless Support:** Structure ready for automation.
-    *   **Guardrails:** Enforced "No Code" for free users.
-
-## 🗺️ Future Trajectory
-
-*   **Q4 2025:** Voice Interaction Module.
-*   **Q1 2026:** Desktop Native App (Electron).
-*   **Q3 2027:** Artificial General Intelligence (AGI) Prototype integration.
-
-## 📦 Deployment
-
-1.  **Start Server:** `python main.py`
-2.  **Start CLI:** `python main.py --cli`
-3.  **Admin Login:** `Silentbotbd` / `SilentBotBd2025 @@>!?`
+## 🔮 Phase 4: Enterprise & Cloud
+- [ ] **Multi-User Support:** Role-based access control (RBAC) and admin panels.
+- [ ] **Cloud Sync:** Sync history across devices (requires cloud backend).
+- [ ] **Vector Database:** RAG (Retrieval-Augmented Generation) implementation for "Chat with your Data".
