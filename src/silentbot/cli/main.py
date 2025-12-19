@@ -31,7 +31,6 @@ BANNER_ART = r"""
   ╚════██║██║██║     ██╔══╝  ██║╚██╗██║   ██║
   ███████║██║███████╗███████╗██║ ╚████║   ██║
   ╚══════╝╚═╝╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝
-              SILENT BOT AI/CLI
 """
 
 console = Console()
@@ -73,9 +72,12 @@ def run_cli():
     border_color = theme["border"]
     title_color = theme["title_color"]
 
+    # Banner Status Text
+    status_line = "SILENT BOT CLI PRO VERSION" if is_pro else "SILENT BOT CLI - NORMAL VERSION"
+
     # Display Banner with the chosen theme
     console.print(Panel(
-        f"[{{title_color}}]{BANNER_ART}[/{{title_color}}][bold {{title_color}}]{PROJECT_NAME} v{VERSION}[/bold {{title_color}}] [PRO: {'ON' if is_pro else 'OFF'}]", 
+        f"[{{title_color}}]{BANNER_ART}[/{{title_color}}][bold {{title_color}}]              {status_line}[/bold {{title_color}}]", 
         border_style=border_color
     ))
     console.print("[dim]Commands: /memory <fact>, /unlock <code>, /clear, /config, /exit[/dim]")
@@ -112,8 +114,9 @@ def run_cli():
             theme = random.choice(THEMES)
             border_color = theme["border"]
             title_color = theme["title_color"]
+            status_line = "SILENT BOT CLI PRO VERSION" if is_pro else "SILENT BOT CLI - NORMAL VERSION"
             console.print(Panel(
-                f"[{{title_color}}]{BANNER_ART}[/{{title_color}}][bold {{title_color}}]{PROJECT_NAME} v{VERSION}[/bold {{title_color}}]", 
+                f"[{{title_color}}]{BANNER_ART}[/{{title_color}}][bold {{title_color}}]              {status_line}[/bold {{title_color}}]", 
                 border_style=border_color
             ))
             current_sid = db.create_session(uid, "CLI Session (Cleared)")

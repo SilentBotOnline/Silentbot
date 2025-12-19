@@ -186,7 +186,7 @@
   ╚════██║██║██║     ██╔══╝  ██║╚██╗██║   ██║
   ███████║██║███████╗███████╗██║ ╚████║   ██║
   ╚══════╝╚═╝╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝
-              SILENT BOT AI/CLI
+  <span id="bannerStatusText">SILENT BOT AI - NORMAL VERSION</span>
   </div>
 
   <div id="modeBadge" class="badge badge-normal">NORMAL MODE</div>
@@ -286,17 +286,20 @@
 
       const modeBadge = document.getElementById("modeBadge");
       const proBadge = document.getElementById("proBadge");
+      const bannerText = document.getElementById("bannerStatusText");
 
       if (data.is_pro) {
         modeBadge.textContent = "PRO PRODUCTION MODE ✅";
         modeBadge.className = "badge badge-pro";
         proBadge.textContent = "PRO MODE ACTIVE";
         proBadge.className = "badge badge-pro";
+        bannerText.textContent = "SILENT BOT AI PRO VERSION";
       } else {
         modeBadge.textContent = "NORMAL MODE";
         modeBadge.className = "badge badge-normal";
         proBadge.textContent = "PRO PRODUCTION MODE LOCKED";
         proBadge.className = "badge badge-locked";
+        bannerText.textContent = "SILENT BOT AI - NORMAL VERSION";
       }
     }
 
