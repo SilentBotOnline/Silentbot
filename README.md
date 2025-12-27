@@ -1,5 +1,5 @@
 # 🤖 Silent Bot AI (Production Edition)
-
+visit website silentbotai.com
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-009688?style=for-the-badge&logo=fastapi)
 ![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991?style=for-the-badge&logo=openai)
@@ -34,5 +34,6 @@ To run Silent Bot on your local machine:
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/Silentbotbd/Silentbot-AI.git](https://github.com/Silentbotbd/Silentbot-AI.git)
+git clone [git@github.com:SilentBotOnline/Silentbot.git] (git@github.com:SilentBotOnline/Silentbot.git)
 cd Silentbot-AI
+gh repo clone SilentBotOnline/Silentbot
