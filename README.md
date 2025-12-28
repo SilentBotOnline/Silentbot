@@ -1,9 +1,13 @@
 # 🤖 Silent Bot AI (Production Edition)
-visit website silentbotai.com
+
 ![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109-009688?style=for-the-badge&logo=fastapi)
 ![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991?style=for-the-badge&logo=openai)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)
+
+visit 
+http://silentbotai.com
+http://silentbot.online 
 
 > **The All-in-One Secure AI Assistant.** > Featuring a built-in Web Interface, CLI capabilities, and enterprise-grade security with Hostion integration.
 
