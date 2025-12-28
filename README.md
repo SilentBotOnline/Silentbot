@@ -9,35 +9,64 @@ visit
 http://silentbotai.com
 http://silentbot.online 
 
-> **The All-in-One Secure AI Assistant.** > Featuring a built-in Web Interface, CLI capabilities, and enterprise-grade security with Hostion integration.
+# Silentbot-AI
 
----
+## System Architecture
 
-## 🌟 Overview
+Silentbot-AI is organized as a multi-service platform that connects user-facing experiences to an AI orchestration layer and persistent data stores.
 
-**Silent Bot AI** is a robust, high-performance AI backend built on **FastAPI**. It is designed for instant deployment on cloud platforms (Render, Railway, Heroku) and includes a seamless web interface for end-users.
+### Services
 
-It features a unique **Dual-Mode System**:
-* **🟢 Normal Mode:** Fast, concise responses for everyday tasks.
-* **🔴 Pro Production Mode:** (Locked) Unlocks advanced architectural reasoning and expanded token limits.
+- **Web app (`apps/web`)**: React + Vite frontend that renders the user experience and calls the backend API.
+- **Backend API (`apps/backend`)**: FastAPI service that handles orchestration, session management, tool routing, and exposes health endpoints.
+- **Model gateway (planned)**: Provider connectors for LLMs, tool calling, and evaluation workflows.
+- **Worker/queue (planned)**: Background processing for ingestion, indexing, and scheduled tasks.
 
-## ✨ Key Features
+### Data Stores
 
-* **⚡ Zero-Config Deployment:** Ready to run immediately with embedded configurations.
-* **🔐 Hostion Security:** Integrated verification using `X-Hostion-Key` headers.
-* **🌐 Integrated Web UI:** No separate frontend required; the HTML/JS is embedded and served automatically.
-* **🛡️ Rate Limiting:** Protects your API from abuse with per-user tracking.
-* **🚀 GPT-4o Powered:** Pre-configured to use the latest OpenAI models.
-* **🔑 Pro Mode System:** Built-in locking mechanism requiring a unique access code to unlock full capabilities.
+- **Primary database (planned)**: PostgreSQL for user data, conversations, and metadata.
+- **Vector store (planned)**: pgvector or a managed vector database for embeddings and retrieval.
+- **Object storage (planned)**: Blob store for documents, logs, and model artifacts.
 
----
+### AI Pipeline
 
-## 🚀 Quick Start (Local)
+1. **Ingestion**: Capture user inputs and documents via the API.
+2. **Indexing**: Generate embeddings and store them in the vector store.
+3. **Retrieval**: Fetch relevant context for the user query.
+4. **Generation**: Call the model gateway and assemble the response.
+5. **Delivery**: Return results to the web app and persist conversation state.
 
-To run Silent Bot on your local machine:
+## Components and Interaction
 
-### 1. Clone the Repository
+1. The **web app** calls the **backend API** for chat, ingestion, and retrieval endpoints.
+2. The **backend API** persists metadata in the **primary database** and triggers **worker jobs**.
+3. **Workers** create embeddings, store them in the **vector store**, and update the **primary database**.
+4. The **backend API** queries the **vector store** and **model gateway** to produce responses.
+
+## Repository Layout
+
+```
+apps/
+  backend/   # FastAPI service (entry: app/main.py)
+  web/       # React web app (entry: src/main.jsx)
+```
+
+## Getting Started
+
+### Backend
+
 ```bash
-git clone [git@github.com:SilentBotOnline/Silentbot.git] (git@github.com:SilentBotOnline/Silentbot.git)
-cd Silentbot-AI
-gh repo clone SilentBotOnline/Silentbot
+cd apps/backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload
+```
+
+### Frontend
+
+```bash
+cd apps/web
+npm install
+npm run dev
+```
