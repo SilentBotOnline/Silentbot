@@ -1,0 +1,12 @@
+name: base
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - flake8
+  - pytest
+  # add other conda packages here
+  - pip
+  - pip:
+    - your-pip-package==1.2.3
